@@ -19,7 +19,16 @@ module.exports = {
         },
         contentScripts: {
           entries: {
-            'content-script': [
+            'amazon-auto-order-script':[
+              'src/content-scripts/amazon-auto-order-script.js'
+            ],
+            'check-url':[
+              'src/content-scripts/check-url.js'
+            ],
+            'amazon-add-to-cart':[
+              'src/content-scripts/amazon-add-to-cart.js'
+            ],
+            'content-script':[
               'src/content-scripts/content-script.js'
             ]
           }

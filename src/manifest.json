@@ -5,9 +5,7 @@
   "description": "A Browser Extension for Amazon",
   "default_locale": "en",
   "permissions": [
-    "activeTab","storage","tabs",
-    "<all_urls>",
-    "*://*/*"
+    "storage","tabs","http://www.google.com/"
   ],
   "icons": {
     "16": "icons/16.png",
@@ -18,8 +16,13 @@
     "scripts": [
       "js/background.js"
     ],
-    "persistent": false
+    "persistent":false
   },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "content_scripts": [ 
+      { "matches": ["*://www.amazon.com/*"],"js":["js/amazon-auto-order-script.js"] ,"run_at": "document_end"},
+      { "matches": ["*://www.amazon.com/dp/*"], "js":["js/amazon-add-to-cart.js"], "run_at": "document_end"}
+  ],
   "browser_action": {
     "default_popup": "popup.html",
     "default_title": "__MSG_extName__",

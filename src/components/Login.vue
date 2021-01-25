@@ -35,7 +35,7 @@ export default {
     },
     methods:{
         handle_login:function(){
-            PUBLIC_API.post(API_URL+'/api/v1/authorize',JSON.stringify({username:this.username,password:this.password})).then(response=>{
+            PUBLIC_API.post(API_URL+'/api/v1/authorize',JSON.stringify({username:this.username,password:this.password}),{headers: {"Access-Control-Allow-Origin": "*"}}).then(response=>{
                 if(response.data.status===1){
                     chrome.storage.local.set({"api_token": response.data.data.authorization_code}, function() {
                         console.log(response.data.data.authorization_code)

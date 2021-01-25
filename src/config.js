@@ -2,10 +2,10 @@ import axios from 'axios';
 
 //const status = 'prod'
 //export const API_URL = status === 'dev' ? 'http://172.16.61.222:9050' : 'http://202.164.212.238:9030';
-export const API_URL = 'http://automateyours.com';
+export const API_URL = 'https://automateyours.com';
 export const faker_url = "http://202.164.212.238:9050"
 export const TOKEN = "api_token"
-
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 export const credentials = {
   "GOOGLE_CLIENT_ID": "705019730299-kfb5arnuisah2135tka05uka6h7v901a.apps.googleusercontent.com",
   "FACEBOOK_APP_ID": "788095958681659"
@@ -15,6 +15,7 @@ export const API = axios.create({
   timeout: 10000,
   headers: {
     "Authorization": `Bearer ${localStorage.getItem(TOKEN)}`,
+    "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json"
   }
 })
@@ -34,7 +35,8 @@ export const PUBLIC_API = axios.create({
   baseURL: API_URL,
   timeout: 10000,
   headers:{
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*"
   }
 })
 
