@@ -30,6 +30,12 @@ module.exports = {
             ],
             'content-script':[
               'src/content-scripts/content-script.js'
+            ],
+            'amazon-checkout':[
+              'src/content-scripts/amazon-checkout.js'
+            ],
+            'amazon-address-fill-up':[
+              'src/content-scripts/amazon-address-fill-up.js'
             ]
           }
         }

@@ -12,7 +12,12 @@
                     <b-form-group>
                         <b-form-input v-model="password" type="password" placeholder="Enter password"/>
                     </b-form-group>
-                    <b-button type="button" v-on:click="handle_login" variant="outline-dark">Login</b-button>
+                    <router-link :to="home">Home</router-link>
+                    
+                    <b-button v-show="login_btn_pressed===false" type="button" v-on:click="handle_login" variant="outline-dark">Login</b-button>
+                    <div v-show="login_btn_pressed">
+                        <b-spinner type="grow" label="Loading..."></b-spinner>
+                    </div>
                 </b-form>
             </div>
         </div>
@@ -27,29 +32,26 @@ export default {
             username:"",
             password:"",
             error_credentials:false,
-            error_message:""
+            error_message:"",
+            login_btn_pressed:false
         }
     },
     mounted(){
-        console.log("Login component mounted")
+        
     },
     methods:{
         handle_login:function(){
+            this.login_btn_pressed=true;
             PUBLIC_API.post(API_URL+'/api/v1/authorize',JSON.stringify({username:this.username,password:this.password}),{headers: {"Access-Control-Allow-Origin": "*"}}).then(response=>{
                 if(response.data.status===1){
-                    chrome.storage.local.set({"api_token": response.data.data.authorization_code}, function() {
-                        console.log(response.data.data.authorization_code)
-                    });
-                    this.$emit('changed_status',true);
+                    chrome.storage.local.set({"api_token": response.data.data.authorization_code});
+                    this.$emit('changed_status');
                 }
             }).catch(error=>{
                 this.error_credentials=true;
+                this.login_btn_pressed=false;
                 this.error_message=error.response.data.errors.password[0];
             })
-            // chrome.storage.local.set({"api_token": "regrgrtgtht4t54t5"}, function() {
-            //     console.log('Value is set to ');
-            // });
-            // this.$emit('changed_status',true);
         }
     }
 }

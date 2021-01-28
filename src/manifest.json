@@ -5,7 +5,8 @@
   "description": "A Browser Extension for Amazon",
   "default_locale": "en",
   "permissions": [
-    "storage","tabs","http://www.google.com/"
+    "storage","tabs","http://www.google.com/","http://*/",
+    "https://*/"
   ],
   "icons": {
     "16": "icons/16.png",
@@ -21,7 +22,9 @@
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "content_scripts": [ 
       { "matches": ["*://www.amazon.com/*"],"js":["js/amazon-auto-order-script.js"] ,"run_at": "document_end"},
-      { "matches": ["*://www.amazon.com/dp/*"], "js":["js/amazon-add-to-cart.js"], "run_at": "document_end"}
+      { "matches": ["*://www.amazon.com/dp/*"], "js":["js/amazon-add-to-cart.js"], "run_at": "document_end"},
+      { "matches": ["*://www.amazon.com/gp/buy/*"], "js":["js/amazon-checkout.js"], "run_at": "document_end"},
+      { "matches": ["*://www.amazon.com/gp/buy/addressselect/*"], "js":["js/amazon-address-fill-up.js"], "run_at": "document_end"}
   ],
   "browser_action": {
     "default_popup": "popup.html",

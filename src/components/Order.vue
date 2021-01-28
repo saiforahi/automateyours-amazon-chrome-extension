@@ -23,7 +23,7 @@ export default {
             card:{}
         }
     },
-    created(){
+    mounted(){
         chrome.runtime.sendMessage({message: "get_order_details"}, (response) => {
             this.lines=response.lines;
             this.order=response.order;

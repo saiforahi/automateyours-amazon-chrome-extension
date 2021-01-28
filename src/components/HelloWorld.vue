@@ -10,10 +10,13 @@ import Order from './Order.vue'
 export default {
   name: 'HelloWorld',
   components:{Order},
+  data(){
+    return{
+      
+    }
+  },
   mounted () {
-        // browser.runtime.sendMessage({message: "clear_logout"}, (response) => {
-        //     console.log(response)
-        // })
+        this.clear_btn_pressed=false;
   },
   computed: {
     defaultText () {
@@ -22,10 +25,10 @@ export default {
   },
   methods:{
     clearAndLogout:function(){
-      chrome.storage.local.clear();
-      document.getElementById('dashboard_component').style.display="none"
-      document.getElementById('login_component').style.display="block"
+      //chrome.storage.local.clear();
       //chrome.runtime.sendMessage()
+      chrome.runtime.sendMessage({message: "clear_logout"})
+      this.$emit('clear');
     }
   }
 }

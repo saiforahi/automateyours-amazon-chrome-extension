@@ -1,7 +1,7 @@
 <template>
   <div>
-    <hello-world></hello-world>
-    <Login @changed_status="change_auth_status"></Login>
+    <hello-world @clear="clear_logout" v-show="isLogged"></hello-world>
+    <Login v-show="isLogged===false" @changed_status="change_auth_status"></Login>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
   components: { HelloWorld, Login},
   data(){
     return{
-      
+      isLogged:false,
     }
   },
   computed:{
@@ -23,25 +23,29 @@ export default {
   },
   methods:{
     change_auth_status:function(){
-      document.getElementById('dashboard_component').style.display='block';
-      document.getElementById('login_component').style.display='none';
+      this.isLogged=true;
     },
-    clearStorage(){
-      chrome.storage.local.clear();
+    clear_logout(){
+      this.isLogged=false;
     }
   },
   mounted(){
-    chrome.storage.local.get(['api_token'], function(result) {
-        console.log(result);
-        if(result.api_token){
-          document.getElementById('dashboard_component').style.display='block'
-          document.getElementById('login_component').style.display='none';
-        }
-        else{
-          document.getElementById('login_component').style.display='block';
-          document.getElementById('dashboard_component').style.display='none'
-        }
-    });
+    chrome.runtime.sendMessage({message: "api_token"}, (response) => {
+      if(response.api_token!==undefined){
+        this.isLogged=true;
+      }
+    })
+    // chrome.storage.local.get(['api_token'], function(result) {
+    //     console.log(result);
+    //     if(result.api_token){
+    //       document.getElementById('dashboard_component').style.display='block'
+    //       document.getElementById('login_component').style.display='none';
+    //     }
+    //     else{
+    //       document.getElementById('login_component').style.display='block';
+    //       document.getElementById('dashboard_component').style.display='none'
+    //     }
+    // });
   }
 }
 </script>
