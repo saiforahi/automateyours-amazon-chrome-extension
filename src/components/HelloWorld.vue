@@ -16,7 +16,6 @@ export default {
     }
   },
   mounted () {
-        this.clear_btn_pressed=false;
   },
   computed: {
     defaultText () {

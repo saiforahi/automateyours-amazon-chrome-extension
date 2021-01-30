@@ -38,6 +38,18 @@ chrome.runtime.onMessage.addListener(
             tabId: sender.tab.id
         });
     }
+    if(request.message==="change_payment"){
+      setTimeout(()=>{
+        chrome.tabs.executeScript(sender.tab.id,{
+          code:"document.getElementById('payChangeButtonId').click()"
+        })
+      },2000)
+      setTimeout(()=>{
+        chrome.tabs.executeScript(sender.tab.id,{
+          code:"document.getElementById('payChangeButtonId').click()"
+        })
+      },4000)
+    }
   }
 );
 
@@ -54,8 +66,14 @@ chrome.tabs.onUpdated.addListener(
       //   message: 'hello!',
       //   url: changeInfo.url
       // })
-      chrome.tabs.executeScript({
+      chrome.tabs.executeScript(tabId,{
         file: 'js/amazon-address-fill-up.js',
+      });
+    }
+    else if(changeInfo.url==="https://www.amazon.com/gp/buy/payselect/handlers/display.html?hasWorkingJavascript=1"){
+      //chrome.tabs.reload(tabId)
+      chrome.tabs.executeScript(tabId,{
+        file: 'js/amazon-payselect.js',
       });
     }
   }

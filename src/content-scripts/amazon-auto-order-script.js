@@ -18,7 +18,7 @@ function get_order_details(theUrl)
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "POST", theUrl,false ); // false for synchronous request
     xmlHttp.send(JSON.stringify(getParams(window.location.href)));
-    // console.log(JSON.parse(xmlHttp.responseText).product_url);
+    console.log(xmlHttp.responseText);
     // window.open(JSON.parse(xmlHttp.responseText).product_url);
     // fetch(theUrl,{headers:{"content-type":"application/json; charset=UTF-8"},body:{order_id:"1"},method:"POST"}).then(response=>{console.log(response.json())})
     return xmlHttp.responseText;
@@ -54,10 +54,11 @@ function fetch_data(){
             else if(document.getElementById('hlb-ptc-btn-native')){
                 document.getElementById('hlb-ptc-btn-native').click();
             }
-            else{
+            else if(!document.querySelector('div.a-section.a-spacing-small.a-text-center span.a-color-price.a-text-bold')){
+                console.log('else else block')
                 chrome.storage.local.get(['lines'],function(result){
                     if(result.lines.length>0){
-                        console.log(result.lines)
+                        console.log("lines: ",result.lines)
                         result.lines.shift()
                         if(result.lines.length>0){
                             let url=result.lines[0].amazon_product_url
@@ -69,6 +70,7 @@ function fetch_data(){
                     }
                 })
             }
+            
         }
     })
 }

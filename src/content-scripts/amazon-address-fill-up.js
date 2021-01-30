@@ -30,16 +30,17 @@ function press_country_combo(){
     },4000)
 }
 function set_country(){
-    chrome.storage.local.get(['order'],function(){
+    chrome.storage.local.get(['order'],function(result){
+        console.log(result.order)
         setTimeout(()=>{
             let element=document.getElementById('1_dropdown_combobox')
             let element2=document.querySelector('div.a-popover-inner ul.a-nostyle.a-list-link')
             if(element){
-                console.log(element)
                 element.childNodes.forEach(child=>{
                     if(child.hasChildNodes()){
-                        if(child.childNodes[0].getAttribute('data-value')=="AF"){
-                            console.log(child)
+                        console.log(child.childNodes[0].getAttribute('data-value'))
+                        if(child.childNodes[0].getAttribute('data-value')==="US"){
+                            console.log(result.order.ship_country)
                             child.firstChild.click();
                         }
                     }
@@ -53,7 +54,7 @@ function set_country(){
                 element2.childNodes.forEach(child=>{
                     if(child.hasChildNodes()){
                         console.log()
-                        if(JSON.parse(child.firstChild.getAttribute('data-value')).stringVal=="AF"){
+                        if(JSON.parse(child.firstChild.getAttribute('data-value')).stringVal==="US"){
                             child.firstChild.click();
                         }
                     }
@@ -78,6 +79,7 @@ function final_press_add_address(){
     if(document.getElementById('address-ui-widgets-form-submit-button')){
         setTimeout(()=>{
             let element=document.getElementById('address-ui-widgets-form-submit-button');
+            chrome.runtime.sendMessage({message:"change_payment"})
             element.firstChild.click();
         },12000)
     }
