@@ -50,6 +50,15 @@ chrome.runtime.onMessage.addListener(
         })
       },4000)
     }
+
+    if(request.message==="place_order"){
+      console.log('command')
+      setTimeout(()=>{
+        chrome.tabs.executeScript(sender.tab.id,{
+          file: 'js/amazon-place-order.js',
+        })
+      },5000)
+    }
   }
 );
 
@@ -68,12 +77,6 @@ chrome.tabs.onUpdated.addListener(
       // })
       chrome.tabs.executeScript(tabId,{
         file: 'js/amazon-address-fill-up.js',
-      });
-    }
-    else if(changeInfo.url==="https://www.amazon.com/gp/buy/payselect/handlers/display.html?hasWorkingJavascript=1"){
-      //chrome.tabs.reload(tabId)
-      chrome.tabs.executeScript(tabId,{
-        file: 'js/amazon-payselect.js',
       });
     }
   }

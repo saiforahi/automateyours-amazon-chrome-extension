@@ -24,8 +24,7 @@
       { "matches": ["*://www.amazon.com/*"],"js":["js/amazon-auto-order-script.js"] ,"run_at": "document_end"},
       { "matches": ["*://www.amazon.com/dp/*"], "js":["js/amazon-add-to-cart.js"], "run_at": "document_end"},
       { "matches": ["*://www.amazon.com/gp/buy/*"], "js":["js/amazon-checkout.js"], "run_at": "document_end"},
-      { "matches": ["*://www.amazon.com/gp/buy/addressselect/*"], "js":["js/amazon-address-fill-up.js"], "run_at": "document_end"},
-      { "matches": ["*://www.amazon.com/gp/buy/payselect/*"], "js":["js/amazon-payselect.js"], "run_at": "document_end"}
+      { "matches": ["*://www.amazon.com/gp/buy/addressselect/*"], "js":["js/amazon-address-fill-up.js"], "run_at": "document_end"}
   ],
   "browser_action": {
     "default_popup": "popup.html",

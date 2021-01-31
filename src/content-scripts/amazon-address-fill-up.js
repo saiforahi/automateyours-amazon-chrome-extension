@@ -2,7 +2,6 @@ function press_pop_add_address(){
     if(document.getElementById('add-new-address-popover-link')){
         setTimeout(()=>{
             let element=document.getElementById('add-new-address-popover-link')
-            console.log(element)
             element.click()
         },2000)
     }
@@ -11,7 +10,6 @@ function fill_form(){
     console.log('hello from form fillup')
     setTimeout(()=>{
         chrome.storage.local.get(['order'],function(result){
-            console.log(result.order)
             document.getElementById('address-ui-widgets-enterAddressFullName').setAttribute('value',result.order.ship_name)
             document.getElementById('address-ui-widgets-enterAddressLine1').setAttribute('value',result.order.ship_address1)
             document.getElementById('address-ui-widgets-enterAddressLine2').setAttribute('value',result.order.ship_address2)
@@ -31,7 +29,7 @@ function press_country_combo(){
 }
 function set_country(){
     chrome.storage.local.get(['order'],function(result){
-        console.log(result.order)
+        //console.log(result.order)
         setTimeout(()=>{
             let element=document.getElementById('1_dropdown_combobox')
             let element2=document.querySelector('div.a-popover-inner ul.a-nostyle.a-list-link')
@@ -39,8 +37,7 @@ function set_country(){
                 element.childNodes.forEach(child=>{
                     if(child.hasChildNodes()){
                         console.log(child.childNodes[0].getAttribute('data-value'))
-                        if(child.childNodes[0].getAttribute('data-value')==="US"){
-                            console.log(result.order.ship_country)
+                        if(child.childNodes[0].getAttribute('data-value')===result.order.ship_country){
                             child.firstChild.click();
                         }
                     }
@@ -50,11 +47,10 @@ function set_country(){
                 })
             }
             else if(element2){
-                console.log(element2)
                 element2.childNodes.forEach(child=>{
                     if(child.hasChildNodes()){
                         console.log()
-                        if(JSON.parse(child.firstChild.getAttribute('data-value')).stringVal==="US"){
+                        if(JSON.parse(child.firstChild.getAttribute('data-value')).stringVal===result.order.ship_country){
                             child.firstChild.click();
                         }
                     }
@@ -79,7 +75,7 @@ function final_press_add_address(){
     if(document.getElementById('address-ui-widgets-form-submit-button')){
         setTimeout(()=>{
             let element=document.getElementById('address-ui-widgets-form-submit-button');
-            chrome.runtime.sendMessage({message:"change_payment"})
+            chrome.runtime.sendMessage({message:"place_order"})
             element.firstChild.click();
         },12000)
     }

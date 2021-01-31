@@ -37,8 +37,6 @@ function fetch_data(){
             const result=JSON.parse(get_order_details('https://automateyours.com/api/v1/GetOrder'));
             if(result.status===1){
                 chrome.storage.local.set({"order_url":window.location.href,"cart":{items:[]},"order": result.data.order,"lines":result.data.lines,"card":result.data.card}, function() {
-                    console.log(result.data.order)
-                    console.log(result.data.lines)
                     let element=document.createElement('a');
                     element.setAttribute('href',result.data.lines[0].amazon_product_url);
                     element.click();
@@ -47,7 +45,6 @@ function fetch_data(){
             }
         }
         else{
-            console.log('else block')
             if(document.getElementById('add-to-cart-button')){
                 document.getElementById('add-to-cart-button').click();
             }
@@ -55,10 +52,8 @@ function fetch_data(){
                 document.getElementById('hlb-ptc-btn-native').click();
             }
             else if(!document.querySelector('div.a-section.a-spacing-small.a-text-center span.a-color-price.a-text-bold')){
-                console.log('else else block')
                 chrome.storage.local.get(['lines'],function(result){
                     if(result.lines.length>0){
-                        console.log("lines: ",result.lines)
                         result.lines.shift()
                         if(result.lines.length>0){
                             let url=result.lines[0].amazon_product_url

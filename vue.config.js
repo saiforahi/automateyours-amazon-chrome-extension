@@ -37,8 +37,8 @@ module.exports = {
             'amazon-address-fill-up':[
               'src/content-scripts/amazon-address-fill-up.js'
             ],
-            'amazon-payselect':[
-              'src/content-scripts/amazon-payselect.js'
+            'amazon-place-order':[
+              'src/content-scripts/amazon-place-order.js'
             ]
           }
         }

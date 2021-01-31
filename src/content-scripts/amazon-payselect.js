@@ -10,10 +10,7 @@ function one(){
 
 function two(){
     chrome.storage.local.get(['card'],function(result){
-        setInterval(() => {
-            console.log(document.querySelector('div.a-popover-wrapper div.a-popover-inner'))
-            console.log(document.getElementsByClassName('a-popover-wrapper'))
-            console.log(document.getElementById('cpefront-mpo-widget'))
+        setTimeout(() => {
             let number=document.getElementsByName('addCreditCardNumber')[0]
             console.log(number)
             number.setAttribute('value',result.card.card_no)
