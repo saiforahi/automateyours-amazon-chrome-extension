@@ -9,12 +9,12 @@ function click_change_address(){
             },2000)
         }
     }
-    else if(document.getElementById('addressChangeLinkId')){
-        setTimeout(()=>{
-            let element=document.getElementById('addressChangeLinkId')
-            element.click();
-        },2000)
-    }
+    // else if(document.getElementById('addressChangeLinkId')){
+    //     setTimeout(()=>{
+    //         let element=document.getElementById('addressChangeLinkId')
+    //         element.click();
+    //     },2000)
+    // }
 }
 function click_add_address(){
     if(document.getElementById('add-new-address-popover-link')){
@@ -24,13 +24,13 @@ function click_add_address(){
             element.click()
         },5000)
     }
-    else if(document.querySelector('div.select-address-slot.aok-align-top.a-column.a-span4 div.add-address-button div')){
-        setTimeout(()=>{
-            let add_address=document.querySelector('div.select-address-slot.aok-align-top.a-column.a-span4 div.add-address-button div')
-            console.log('click_prvs_add_address')
-            add_address.click();
-        },5000)
-    }
+    // else if(document.querySelector('div.select-address-slot.aok-align-top.a-column.a-span4 div.add-address-button div')){
+    //     setTimeout(()=>{
+    //         let add_address=document.querySelector('div.select-address-slot.aok-align-top.a-column.a-span4 div.add-address-button div')
+    //         console.log('click_prvs_add_address')
+    //         add_address.click();
+    //     },5000)
+    // }
 }
 
 window.onload=Promise.resolve(click_change_address()).then(()=>Promise.resolve(click_add_address()));

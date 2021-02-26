@@ -1,2 +1,2 @@
-let element = document.getElementById('submitOrderButtonId');
+let element = document.getElementById('placeYourOrder');
 element.click()

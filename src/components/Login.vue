@@ -12,8 +12,6 @@
                     <b-form-group>
                         <b-form-input v-model="password" type="password" placeholder="Enter password"/>
                     </b-form-group>
-                    <router-link :to="home">Home</router-link>
-                    
                     <b-button v-show="login_btn_pressed===false" type="button" v-on:click="handle_login" variant="outline-dark">Login</b-button>
                     <div v-show="login_btn_pressed">
                         <b-spinner type="grow" label="Loading..."></b-spinner>
@@ -37,14 +35,17 @@ export default {
         }
     },
     mounted(){
-        
+        chrome.storage.local.get(['api_token'],function(response){
+            console.log(response.api_token)
+        })
     },
     methods:{
         handle_login:function(){
             this.login_btn_pressed=true;
             PUBLIC_API.post(API_URL+'/api/v1/authorize',JSON.stringify({username:this.username,password:this.password}),{headers: {"Access-Control-Allow-Origin": "*"}}).then(response=>{
                 if(response.data.status===1){
-                    chrome.storage.local.set({"api_token": response.data.data.authorization_code});
+                    console.log(response.data)
+                    chrome.runtime.sendMessage({message:"set_api_token",api_token:response.data.data.authorization_code})
                     this.$emit('changed_status');
                 }
             }).catch(error=>{

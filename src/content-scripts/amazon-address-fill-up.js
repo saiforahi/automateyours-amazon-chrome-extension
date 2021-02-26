@@ -6,21 +6,6 @@ function press_pop_add_address(){
         },2000)
     }
 }
-function fill_form(){
-    console.log('hello from form fillup')
-    setTimeout(()=>{
-        chrome.storage.local.get(['order'],function(result){
-            document.getElementById('address-ui-widgets-enterAddressFullName').setAttribute('value',result.order.ship_name)
-            document.getElementById('address-ui-widgets-enterAddressLine1').setAttribute('value',result.order.ship_address1)
-            document.getElementById('address-ui-widgets-enterAddressLine2').setAttribute('value',result.order.ship_address2)
-            document.getElementById('address-ui-widgets-enterAddressCity').setAttribute('value',result.order.ship_city)
-            document.getElementById('address-ui-widgets-enterAddressStateOrRegion').setAttribute('value',result.order.ship_state)
-            document.getElementById('address-ui-widgets-enterAddressPostalCode').setAttribute('value',result.order.ship_postalCode)
-            document.getElementById('address-ui-widgets-enterAddressPhoneNumber').setAttribute('value',result.order.ship_phone)
-            document.getElementById('address-ui-widgets-use-as-my-default').setAttribute('checked',true);
-        })
-    },8000)
-}
 function press_country_combo(){
     setTimeout(()=>{
         let element=document.querySelector('span.a-button.a-button-dropdown.a-spacing-none.address-ui-widgets-desktop-form-field-full-width span.a-button-text.a-declarative')
@@ -36,7 +21,7 @@ function set_country(){
             if(element){
                 element.childNodes.forEach(child=>{
                     if(child.hasChildNodes()){
-                        console.log(child.childNodes[0].getAttribute('data-value'))
+                        //console.log(child.childNodes[0].getAttribute('data-value'))
                         if(child.childNodes[0].getAttribute('data-value')===result.order.ship_country){
                             child.firstChild.click();
                         }
@@ -49,7 +34,7 @@ function set_country(){
             else if(element2){
                 element2.childNodes.forEach(child=>{
                     if(child.hasChildNodes()){
-                        console.log()
+                        //console.log()
                         if(JSON.parse(child.firstChild.getAttribute('data-value')).stringVal===result.order.ship_country){
                             child.firstChild.click();
                         }
@@ -63,21 +48,78 @@ function set_country(){
         },6000)
     });
 }
+function fill_form(){
+    console.log('hello from form fillup')
+    setTimeout(()=>{
+        chrome.storage.local.get(['order'],function(result){
+            document.getElementById('address-ui-widgets-enterAddressFullName').setAttribute('value',result.order.ship_name)
+            document.getElementById('address-ui-widgets-enterAddressLine1').setAttribute('value',result.order.ship_address1)
+            document.getElementById('address-ui-widgets-enterAddressLine2').setAttribute('value',result.order.ship_address2)
+            document.getElementById('address-ui-widgets-enterAddressCity').setAttribute('value',result.order.ship_city)
+            document.getElementById('address-ui-widgets-enterAddressStateOrRegion').setAttribute('value',result.order.ship_state)
+            document.getElementById('address-ui-widgets-enterAddressPostalCode').setAttribute('value',result.order.ship_postalCode)
+            document.getElementById('address-ui-widgets-enterAddressPhoneNumber').setAttribute('value',result.order.ship_phone)
+            document.getElementById('address-ui-widgets-use-as-my-default').setAttribute('checked',true);
+        })
+    },8000)
+}
+function press_state_combo(){
+    setTimeout(()=>{
+        if(document.getElementById('address-ui-widgets-enterAddressStateOrRegion')){
+            console.log(document.getElementById('address-ui-widgets-enterAddressStateOrRegion'))
+            document.getElementById('address-ui-widgets-enterAddressStateOrRegion').firstChild.firstChild.click();
+        }
+    },10000)
+}
+function set_state(){
+    setTimeout(()=>{
+        chrome.storage.local.get(['order'],function(result){
+            //console.log(result.order)
+            setTimeout(()=>{
+                let element=document.getElementById('2_dropdown_combobox')
+                if(element){
+                    element.childNodes.forEach(child=>{
+                        if(child.hasChildNodes()){
+                            //console.log(child.childNodes[0].getAttribute('data-value'))
+                            if(child.childNodes[0].getAttribute('data-value')===result.order.ship_state){
+                                child.firstChild.click();
+                            }
+                        }
+                        // if(child.firstChild.getAttribute('data-value')==="USA"){
+                        //     child.firstChild.click();
+                        // }
+                    })
+                } 
+            },12000)
+        });
+    })
+}
 function press_add_address(){
     if(document.getElementById('address-ui-widgets-form-submit-button')){
         setTimeout(()=>{
             let element=document.getElementById('address-ui-widgets-form-submit-button');
             element.firstChild.click();
-        },10000)
+        },14000)
     }
 }
 function final_press_add_address(){
     if(document.getElementById('address-ui-widgets-form-submit-button')){
         setTimeout(()=>{
             let element=document.getElementById('address-ui-widgets-form-submit-button');
-            chrome.runtime.sendMessage({message:"place_order"})
+            chrome.runtime.sendMessage({message:"press_continue"})
             element.firstChild.click();
-        },12000)
+        },16000)
     }
 }
-window.onload=Promise.resolve(press_pop_add_address()).then(()=>Promise.resolve(press_country_combo()).then(()=>Promise.resolve(set_country()).then(()=>Promise.resolve(fill_form()).then(()=>Promise.resolve(press_add_address()).then(()=>Promise.resolve(final_press_add_address()))))))
+function press_continue(){
+    if(document.getElementsByClassName('sosp-continue-button a-button a-button-primary a-button-span12 a-padding-none  continue-button').length>0){
+        console.log(document.getElementsByClassName('sosp-continue-button a-button a-button-primary a-button-span12 a-padding-none  continue-button'))
+        setTimeout(()=>{
+            let element=document.getElementsByClassName('sosp-continue-button a-button a-button-primary a-button-span12 a-padding-none  continue-button')[0];
+            //chrome.runtime.sendMessage({message:"place_order"})
+            console.log(element)
+            //element.firstChild.firstChild.click();
+        },18000)
+    }
+}
+window.onload=Promise.resolve(press_pop_add_address()).then(()=>Promise.resolve(press_country_combo()).then(()=>Promise.resolve(set_country()).then(()=>Promise.resolve(fill_form()).then(Promise.resolve(press_state_combo()).then(()=>Promise.resolve(set_state()).then(()=>Promise.resolve(press_add_address()).then(()=>Promise.resolve(final_press_add_address()).then(Promise.resolve(press_continue())))))))))

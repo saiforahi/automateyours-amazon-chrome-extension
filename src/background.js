@@ -19,6 +19,9 @@ chrome.runtime.onMessage.addListener(
         }
       })
     }
+    if(request.message==="set_api_token"){
+      chrome.storage.local.set({api_token:request.api_token})
+    }
     if(request.message==="clear_logout"){
       console.log('clearing storage....')
       chrome.storage.local.clear();
@@ -30,7 +33,6 @@ chrome.runtime.onMessage.addListener(
             tabId: sender.tab.id
         });
     }
-
     if( request.message === "invalid" ) {
       console.log('invalid icon')
         chrome.browserAction.setIcon({
@@ -38,19 +40,6 @@ chrome.runtime.onMessage.addListener(
             tabId: sender.tab.id
         });
     }
-    if(request.message==="change_payment"){
-      setTimeout(()=>{
-        chrome.tabs.executeScript(sender.tab.id,{
-          code:"document.getElementById('payChangeButtonId').click()"
-        })
-      },2000)
-      setTimeout(()=>{
-        chrome.tabs.executeScript(sender.tab.id,{
-          code:"document.getElementById('payChangeButtonId').click()"
-        })
-      },4000)
-    }
-
     if(request.message==="place_order"){
       console.log('command')
       setTimeout(()=>{
@@ -58,6 +47,14 @@ chrome.runtime.onMessage.addListener(
           file: 'js/amazon-place-order.js',
         })
       },5000)
+    }
+    if(request.message==="press_continue"){
+      setInterval(()=>{
+        chrome.tabs.sendMessage(tabId,{message:'press-continue'})
+        chrome.tabs.executeScript(sender.tab.id,{
+          file: 'js/press-continue.js',
+        })
+      },2000)
     }
   }
 );
@@ -68,7 +65,7 @@ chrome.tabs.onUpdated.addListener(
     // like send the new url to contentscripts.js
     
     if (changeInfo.url==="https://www.amazon.com/gp/buy/addressselect/handlers/display.html?hasWorkingJavascript=1") {
-      chrome.tabs.reload(tabId)
+      //chrome.tabs.reload(tabId)
       console.log(changeInfo)
       // chrome.tabs.executeScript({ code: "let element=document.getElementById('add-new-address-popover-link');element.click()" });
       // chrome.tabs.sendMessage( tabId, {
@@ -77,6 +74,11 @@ chrome.tabs.onUpdated.addListener(
       // })
       chrome.tabs.executeScript(tabId,{
         file: 'js/amazon-address-fill-up.js',
+      });
+    }
+    else if( changeInfo.url==="https://www.amazon.com/gp/yourstore?ie=UTF8&ref=ox_checkout_redirects_yourstore"){
+      chrome.tabs.executeScript(tabId,{
+        code: "document.getElementById('nav-cart-count').click()",
       });
     }
   }

@@ -4,7 +4,6 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import {store} from '../store'
-import {router} from '../router/index'
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 /* eslint-disable no-new */
@@ -13,6 +12,6 @@ new Vue({
   BootstrapVue,
   IconsPlugin,
   store,
-  router,
+  // router,
   render: h => h(App)
 })

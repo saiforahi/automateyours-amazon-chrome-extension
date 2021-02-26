@@ -1,4 +1,31 @@
 console.log('Hello from the amazon-auto-order-script')
+// function one(){
+//     setTimeout(()=>{
+//         console.log('func 1')
+//         document.querySelector('span.a-dropdown-label').click()
+//     },4000)
+// }
+// function two(){
+//     setTimeout(() => {
+//         console.log('func 2')
+//         let element=document.querySelector('ul.a-nostyle.a-list-link');
+//         chrome.storage.local.get(['lines'],function (result){
+//             if(result.lines.length>0){
+//                 element.children.forEach(child => {
+//                     console.log(result.lines[0].qty)
+//                     if(child.firstchild.getAttribute('data-value').stringVal===result.lines[0].qty){
+//                         child.click();
+//                     }
+//                 });
+//             }
+//         })
+//     }, 8000);
+// }
+// function three(){
+//     setTimeout(() => {
+//         document.getElementById('add-to-cart-button').click()
+//     }, 12000);
+// }
 var getParams = function (url) {
 	var params = {};
 	var parser = document.createElement('a');
@@ -19,8 +46,6 @@ function get_order_details(theUrl)
     xmlHttp.open( "POST", theUrl,false ); // false for synchronous request
     xmlHttp.send(JSON.stringify(getParams(window.location.href)));
     console.log(xmlHttp.responseText);
-    // window.open(JSON.parse(xmlHttp.responseText).product_url);
-    // fetch(theUrl,{headers:{"content-type":"application/json; charset=UTF-8"},body:{order_id:"1"},method:"POST"}).then(response=>{console.log(response.json())})
     return xmlHttp.responseText;
 }
 window.onload=handle_amazon()
@@ -46,12 +71,16 @@ function fetch_data(){
         }
         else{
             if(document.getElementById('add-to-cart-button')){
-                document.getElementById('add-to-cart-button').click();
+                //chrome.runtime.sendMessage({message:"set_qty_then_add_to_cart"})
+                document.getElementById('add-to-cart-button').click()
+            }
+            else if(document.getElementById('submitOrderButtonId')){
+                document.getElementById('submitOrderButtonId').click()
             }
             else if(document.getElementById('hlb-ptc-btn-native')){
                 document.getElementById('hlb-ptc-btn-native').click();
             }
-            else if(!document.querySelector('div.a-section.a-spacing-small.a-text-center span.a-color-price.a-text-bold')){
+            else if(!document.querySelector('div.a-section.a-spacing-small.a-text-center span.a-color-price.a-text-bold') || document.querySelector('input[area-labelledby=attach-sidesheet-checkout-button-announce]')){
                 chrome.storage.local.get(['lines'],function(result){
                     if(result.lines.length>0){
                         result.lines.shift()
@@ -70,3 +99,6 @@ function fetch_data(){
     })
 }
 //window.onload=httpGet('https://app.rocketextract.com/api/v1/GetOrder');
+// if(document.getElementById('nav-cart-count')){
+//     document.getElementById('nav-cart-count').click();
+// }
